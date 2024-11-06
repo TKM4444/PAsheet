@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者画面</title>
+    <style>
+    </style>
+</head>
+<body>
+    <%= form_tag("/post/addband") do %>
+    <h1>バンドを追加</h1>
+    <div class="form-group">
+        <%= label_tag :bandname, "bandname" %>
+        <%= text_field_tag :bandname, nil, class: "textarea", id: "post-content", required: true %>
+    </div>
+    <div class="form-group">
+        <%= label_tag :bandid, "bandid" %>
+        <%= text_field_tag :bandid, nil, class: "textarea", id: "post-artist", required: true %>
+    </div>
+    <button type="submit" class="submit-btn">追加</button>
+<% end %>
+
+
+    <%= form_tag("/post/deleteband") do %>
+    <h1>バンドを削除</h1>
+    <form id="edit-post-form">
+        <div class="form-group">
+            <label for="post-artist">bandid</label></label>
+            <input type=text class="textarea" id="post-artist" name="bandid" rows="1" required>
+        </div>
+        <button type="submit" class="submit-btn">削除</button>
+    </form>
+    <% end %>
+
+    <%= form_tag("/post/deletepost") do %>
+    <h1>投稿を削除</h1>
+    <form id="edit-post-form">
+        <div class="form-group">
+            <label for="post-artist">bandid</label></label>
+            <input type=text class="textarea" id="post-artist" name="bandid" rows="1" required>
+        </div>
+        <div class='checkbox-group'>
+            <label>
+                <input type="checkbox" name="request[part][]" value=100 id="hobbyCheckbox"> Vo.
+            </label>
+            <label>
+                <input type="checkbox" name="request[part][]" value=0 id="hobbyCheckbox"> Cho.
+            </label>
+            <label>
+                <input type="checkbox" name="request[part][]" value=7 id="workCheckbox"> Gt.1(ジャズコ)
+            </label>
+            <label>
+                <input type="checkbox" name="request[part][]" value=6 id="educationCheckbox"> Gt.2(マーシャル)
+            </label>
+            <label>
+                <input type="checkbox" name="request[part][]" value=5 id="educationCheckbox"> Gt.3
+            </label>
+            <label>
+                <input type="checkbox" name="request[part][]" value=4 id="educationCheckbox"> Ba.
+            </label>
+            <label>
+                <input type="checkbox" name="request[part][]" value=3 id="DrCheckbox"> Dr.
+            </label>
+            <label>
+                <input type="checkbox" name="request[part][]" value=2 id="KeyCheckbox"> Key.
+            </label>
+            <label>
+                <input type="checkbox" name="request[part][]" value=1 id="AnotherCheckbox"> その他
+            </label>
+        </div>
+        <button type="submit" class="submit-btn">削除</button>
+    </form>
+    <% end %>
+</body>
+</html>

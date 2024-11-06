@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>要望入力フォーム</title>
+    <style>
+        /* ベーススタイル */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #333;
+        }
+
+        .form-container {
+            width: 90%;
+            max-width: 400px;
+            min-height: 100vh;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0px;
+            margin:auto;
+            background-color: #1c1c1c;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f4f4f4;
+        }
+
+        h3 {
+            text-align: center;
+            color: #f4f4f4;
+        }
+
+        hr {
+            margin-bottom:60px;
+        }
+
+        /* チェックボックスのスタイル */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            width:90%;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1em;
+            cursor: pointer;
+            color: #f4f4f4;
+            font-size:1.3rem;
+            padding:8px;
+        }
+
+        .question-item {
+            width:100%;
+        }
+
+        textarea {
+            width:100%;
+        }
+
+        /* 質問フォームのスタイル */
+        .question {
+            display: none; /* デフォルトは非表示 */
+            background-color: #3c3c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #f4f4f4;
+        }
+
+        .commonquestion {
+            background-color: #3c3c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question label {
+            font-size: 0.9em;
+        }
+
+        .question input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type=checkbox] {
+            transform: scale(1.5);
+        }
+        .submit-btn{
+            margin:0 auto;
+            padding: 8px 20px;
+            color: #ffffff;
+            background-color: #7092ff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .btn {
+            text-align:center;
+            width:90%;
+        }
+        textarea{
+            border-radius:0.6rem
+        }
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+                max-width: 100%; /* 画面幅いっぱいに広げる */
+            }
+
+            .submit {
+                font-size: 14px; /* ボタンの文字サイズを小さくする */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class='form-container'>
+    <header>
+        <h1>PAシート</h1>
+        <h3>冬定オーデ2024</h3>
+        <h2>2/2</h2>
+        <hr color='#3c3c3c'>
+    </header>
+    <h2>自分のパートを全て<br>選択してください</h2>
+
+        <!-- チェックボックス -->
+        <%= form_tag("/post/#{@band.bandid}/submit") do %>
+        <form>
+            <div class='checkbox-group'>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=100 id="hobbyCheckbox"> Vo.
+                </label>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=0 id="hobbyCheckbox"> Cho.
+                </label>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=7 id="workCheckbox"> Gt.1(ジャズコ)
+                </label>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=6 id="educationCheckbox"> Gt.2(マーシャル)
+                </label>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=5 id="educationCheckbox"> Gt.3
+                </label>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=4 id="educationCheckbox"> Ba.
+                </label>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=3 id="DrCheckbox"> Dr.
+                </label>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=2 id="KeyCheckbox"> Key.
+                </label>
+                <label>
+                    <input type="checkbox" name="request[part][]" value=1 id="AnotherCheckbox"> その他
+                </label>
+            </div>
+
+            <!-- 質問フォーム（非表示にしておく） -->
+            <div class="question-item">
+                <div id="DrQuestion1" class="question">
+                    <label>ロータムは使用しますか？</label>
+                    <input type="checkbox" name="request[lowtam][]" value="する"> はい
+                    <input type="checkbox" name="request[lowtam][]" value="しない"> いいえ
+                </div>
+
+                <div id="DrQuestion2" class="question">
+                    <label>サンプリングパッドは使用しますか？</label><br>
+                    <input type="checkbox" name="request[pad][]" value="する"> はい
+                    <input type="checkbox" name="request[pad][]" value="しない"> いいえ
+                </div>
+
+                <div id="KeyQuestion" class="question">
+                    <label>キーボードの接続方法を選択してください</label><br>
+                    <input type="checkbox" name="request[key][]" value="ステレオ"> ステレオ
+                    <input type="checkbox" name="request[key][]" value="モノラル"> モノラル
+                </div>
+
+                <div id="AnotherQuestion" class="question">
+                    <label>パート名を入力してください</label>
+                    <input type="text" id="AnotherCheckbox" placeholder='例：DJ' name='another'>
+                </div>
+
+                <div id="Question" class="commonquestion">
+                    <label>自分のパートに関する要望を記入してください(音のバランス、リバーブなど)</label>
+                    <textarea name="ownpart" cols="50" rows="10"></textarea>
+                </div>
+
+                <div id="workQuestion" class="commonquestion">
+                    <label>返しの要望を記入してください(返すパート、バランスなど)</label>
+                    <textarea name="monitor" cols="50" rows="10"></textarea>
+                </div>
+
+                <div id="educationQuestion" class="commonquestion">
+                    <label>バンド全体に関する要望があれば記入してください</label>
+                    <textarea name="whole" cols="50" rows="10"></textarea>
+                </div>
+            </div>
+            <div class='btn'>
+                <button type="submit" class='submit-btn'>送信する</button>
+            </div>
+        </form>
+        <% end %>
+    </div>
+
+    <script defer>
+        // JavaScriptでチェックボックスに応じて質問を表示する関数
+        document.addEventListener('DOMContentLoaded', function() {
+            const DrCheckbox = document.getElementById("DrCheckbox");
+            const KeyCheckbox = document.getElementById("KeyCheckbox");
+            const AnotherCheckbox = document.getElementById("AnotherCheckbox");
+
+            const DrQuestion1 = document.getElementById("DrQuestion1");
+            const DrQuestion2 = document.getElementById("DrQuestion2");
+            const KeyQuestion = document.getElementById("KeyQuestion");
+            const AnotherQuestion = document.getElementById("AnotherQuestion");
+
+            // チェックボックスのイベントリスナーを設定
+            DrCheckbox.addEventListener("change", function() {
+                const displayStyle = DrCheckbox.checked ? "block" : "none";
+                DrQuestion1.style.display = displayStyle;
+                DrQuestion2.style.display = displayStyle;
+            });
+
+            KeyCheckbox.addEventListener("change", function() {
+                KeyQuestion.style.display = KeyCheckbox.checked ? "block" : "none";
+            });
+
+            AnotherCheckbox.addEventListener("change", function() {
+                AnotherQuestion.style.display = AnotherCheckbox.checked ? "block" : "none";
+            });
+        });
+    </script>
+
+</body>
+</html>
+

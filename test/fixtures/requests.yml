@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bandid: 1
+  part: 
+  lowtam: 
+  pad: 
+  key: 
+  another: MyString
+  ownpart: MyText
+  monitor: MyText
+  whole: MyText
+
+two:
+  bandid: 1
+  part: 
+  lowtam: 
+  pad: 
+  key: 
+  another: MyString
+  ownpart: MyText
+  monitor: MyText
+  whole: MyText

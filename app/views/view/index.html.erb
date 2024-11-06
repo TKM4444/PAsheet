@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>各バンド要望一覧</title>
+    <style>
+        /* ベーススタイル */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #333;
+        }
+
+        .form-container {
+            width: 90%;
+            max-width: 400px;
+            min-height: 100vh;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0px;
+            margin:auto;
+            background-color: #1c1c1c;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f4f4f4;
+            margin-bottom:40px;
+        }
+
+        h3 {
+            text-align: center;
+            color: #f4f4f4;
+        }
+
+        h4 {
+            text-align:center;
+        }
+
+        hr {
+            margin-bottom:40px;
+        }
+
+        .part {
+            display:flex;
+            padding-bottom:0px;
+        }
+
+        .answers {
+            color:#f4f4f4;
+        }
+
+        .unit {
+            background-color: #3c3c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .former {
+            text-align:left;
+            float:left;
+            padding: 8px 20px;
+            color: #ffffff;
+            background-color: #7092ff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .next {
+            text-align:right;
+            float:right;
+            padding: 8px 20px;
+            color: #ffffff;
+            background-color: #7092ff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nextband {
+            height:40px;
+        }
+
+        .content {
+            padding-top:0;
+            padding-bottom:40px;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+                max-width: 100%; /* 画面幅いっぱいに広げる */
+            }
+
+            .submit {
+                font-size: 14px; /* ボタンの文字サイズを小さくする */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class='form-container'>
+        <header>
+            <h1>PAシート回答</h1>
+            <h3>冬定オーデ2024</h3>
+            <h2>2/2</h2>
+            <hr color='#3c3c3c'>
+        </header>
+        <h1><%= @band.bandname %></h1>
+        <div class='answers'>
+            <div class='unit'>
+                <h2>編成</h2>
+                <% @requests.each do |request| %> <!--バンドメンバー全員に対して繰り返し-->
+                <div class='part'>
+                    <% request.part.each do |content|%> <!--contentはパートに割り振った番号-->
+                        <% if content == "100"%>
+                            <h3>Vo.　</h3>
+                        <% elsif content == "0" %>
+                            <h3>Cho.　</h3>
+                        <% elsif content == "7" %>
+                            <h3>Gt.1　</h3>
+                        <% elsif content == "6" %>
+                            <h3>Gt.2　</h3>
+                        <% elsif content == "5" %>
+                            <h3>Gt.3　</h3>
+                        <% elsif content == "4" %>
+                            <h3>Ba.　</h3>
+                        <% elsif content == "3" %>
+                            <h3>Dr.　</h3>
+                        <% elsif content == "2" %>
+                            <h3>Key.　</h3>
+                        <% elsif content == "1" %>
+                            <h3><%=request.another%>　</h3>
+                        <% end %>
+                    <% end %>
+                </div>
+                <% end %>
+            </div>
+            <div class='unit'>
+                <h2>楽器特有の要望</h2>
+                <% i = 0 %>
+                <% @requests.each do |request| %>
+                    <% request.part.each do |eachpart|%>
+                        <% if eachpart == '3' %>
+                            <% if request.lowtam[0] == 'する'%>
+                                <h4>ロータムを使用します</h4>
+                                <% i += 1 %>
+                            <% end %>
+                            <% if request.pad[0] == 'する'%>
+                                <h4>サンプリングパッドを使用します</h4>
+                                <% i += 1 %>
+                            <% end %>
+                        <% end %>
+                        <% if eachpart == '2'%>
+                            <% if request.key[0] == 'ステレオ'%>
+                                <h4>キーボード接続：ステレオ</h4>
+                                <% i += 1 %>
+                            <% elsif request.key[0] == 'モノラル' %>
+                                <h4>キーボード接続：モノラル</h4>
+                                <% i += 1 %>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+                <% if i == 0 %>
+                    <h4>特にありません</h4>
+                <% end %>
+            </div>
+            <div class='unit'>
+                <h2>パートごとの要望</h2>
+                <% @requests.each do |request|%>
+                    <div class='part'>
+                        <% request.part.each do |content|%>
+                            <% if content == "100"%>
+                                <h3>Vo.　</h3>
+                            <% elsif content == "0" %>
+                                <h3>Cho.　</h3>
+                            <% elsif content == "7" %>
+                                <h3>Gt.1　</h3>
+                            <% elsif content == "6" %>
+                                <h3>Gt.2　</h3>
+                            <% elsif content == "5" %>
+                                <h3>Gt.3　</h3>
+                            <% elsif content == "4" %>
+                                <h3>Ba.　</h3>
+                            <% elsif content == "3" %>
+                                <h3>Dr.　</h3>
+                            <% elsif content == "2" %>
+                                <h3>Key.　</h3>
+                            <% elsif content == "1" %>
+                                <h3><%=request.another%>　</h3>
+                            <% end %>
+                        <% end %>
+                    </div>
+                    <div class='content'>
+                        <%= request.ownpart%><br>
+                    </div>
+                <% end %>
+            </div>
+            <div class='unit'>
+                <h2>返しの要望</h2>
+                <% @requests.each do |request|%>
+                    <div class='part'>
+                        <% request.part.each do |content|%>
+                            <% if content == "100"%>
+                                <h3>Vo.　</h3>
+                            <% elsif content == "0" %>
+                                <h3>Cho.　</h3>
+                            <% elsif content == "7" %>
+                                <h3>Gt.1　</h3>
+                            <% elsif content == "6" %>
+                                <h3>Gt.2　</h3>
+                            <% elsif content == "5" %>
+                                <h3>Gt.3　</h3>
+                            <% elsif content == "4" %>
+                                <h3>Ba.　</h3>
+                            <% elsif content == "3" %>
+                                <h3>Dr.　</h3>
+                            <% elsif content == "2" %>
+                                <h3>Key.　</h3>
+                            <% elsif content == "1" %>
+                                <h3><%=request.another%>　</h3>
+                            <% end %>
+                        <% end %>
+                    </div>
+                    <div class="content">
+                        <%= request.monitor%><br>
+                    </div>
+                <% end %>
+            </div>
+            <div class='unit'>
+                <h2>バンド全体に関する要望</h2>
+                <% @requests.each do |request|%>
+                    <div class='part'>
+                        <% request.part.each do |content|%>
+                            <% if content == "100"%>
+                                <h3>Vo.　</h3>
+                            <% elsif content == "0" %>
+                                <h3>Cho.　</h3>
+                            <% elsif content == "7" %>
+                                <h3>Gt.1　</h3>
+                            <% elsif content == "6" %>
+                                <h3>Gt.2　</h3>
+                            <% elsif content == "5" %>
+                                <h3>Gt.3　</h3>
+                            <% elsif content == "4" %>
+                                <h3>Ba.　</h3>
+                            <% elsif content == "3" %>
+                                <h3>Dr.　</h3>
+                            <% elsif content == "2" %>
+                                <h3>Key.　</h3>
+                            <% elsif content == "1" %>
+                                <h3><%=request.another%>　</h3>
+                            <% end %>
+                        <% end %>
+                    </div>
+                    <div class="content">
+                        <%= request.whole%><br>
+                    </div>
+                <% end %>
+            </div>
+            <div class='nextband'>
+                <% if @band.id - 1 > 0 %>
+                    <a href='<%="/view/#{@band.bandid-1}"%>' class="former" ontouchstart="">前のバンド</a>
+                <% end %>
+                <% if @band.id + 1 < 13  %>
+                    <a href='<%="/view/#{@band.bandid+1}"%>' class="next" ontouchstart="">次のバンド</a>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
