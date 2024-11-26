@@ -139,11 +139,11 @@
                         <% elsif content == "0" %>
                             <h3>Cho.　</h3>
                         <% elsif content == "7" %>
-                            <h3>Gt.1　</h3>
+                            <h3>ジャズコ　</h3>
                         <% elsif content == "6" %>
-                            <h3>Gt.2　</h3>
+                            <h3>マーシャル　</h3>
                         <% elsif content == "5" %>
-                            <h3>Gt.3　</h3>
+                            <h3>fender/持ち込みアンプ　</h3>
                         <% elsif content == "4" %>
                             <h3>Ba.　</h3>
                         <% elsif content == "3" %>
@@ -193,7 +193,7 @@
                 <% @requests.each do |request|%>
                     <% if request.sename != nil %>
                         <h3><%= request.sename %></h3>
-                        <h5><%= request.seartist %></h5>
+                        <h4><%= request.seartist %></h4>
                         <% k += 1 %>
                     <% end %>
                     <% if request.url != nil %>
