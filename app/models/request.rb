@@ -6,8 +6,8 @@ class Request < ApplicationRecord
   def acceptable_file
     return unless file.attached?
 
-    if file.byte_size > 10.megabytes
-      errors.add(:file, "のサイズは10MB以下にしてください。")
+    if file.byte_size > 50.megabytes
+      errors.add(:file, "のサイズは50MB以下にしてください。")
     end
   end
 
