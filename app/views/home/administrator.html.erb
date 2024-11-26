@@ -14,12 +14,21 @@
         <%= label_tag :bandname, "bandname" %>
         <%= text_field_tag :bandname, nil, class: "textarea", id: "post-content", required: true %>
     </div>
+    <button type="submit" class="submit-btn">追加</button>
+    <% end %>
+
+    <%= form_tag("/post/addbandid") do %>
+    <h1>bandidでバンドを追加</h1>
+    <div class="form-group">
+        <%= label_tag :bandname, "bandname" %>
+        <%= text_field_tag :bandname, nil, class: "textarea", id: "post-content", required: true %>
+    </div>
     <div class="form-group">
         <%= label_tag :bandid, "bandid" %>
         <%= text_field_tag :bandid, nil, class: "textarea", id: "post-artist", required: true %>
     </div>
     <button type="submit" class="submit-btn">追加</button>
-<% end %>
+    <% end %>
 
 
     <%= form_tag("/post/deleteband") do %>

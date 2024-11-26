@@ -2,6 +2,14 @@ class PostController < ApplicationController
   before_action :authenticate_user!
   def index
     @band = Band.find_by(bandid: params[:id])
+    @alreadys = Request.where(bandid: params[:id])
+    @i = 0
+    @k = 0
+    @alreadys.each do |already|
+      if already.seartist != "" || already.url != "" || already.file.attached?
+        @i += 1
+      end
+    end
   end
 
   def submit
@@ -23,6 +31,9 @@ class PostController < ApplicationController
     if i == 0
       @request.bandid = params[:id]
       @request.another = params[:another]
+      @request.sename = params[:sename]
+      @request.seartist = params[:seartist]
+      @request.url = params[:url]
       @request.ownpart = params[:ownpart]
       @request.monitor = params[:monitor]
       @request.whole = params[:whole]
@@ -34,8 +45,25 @@ class PostController < ApplicationController
   def thankyou
   end
 
-  def addband
+  def addbandid
     @band = Band.new(bandname: params[:bandname],bandid: params[:bandid].to_i)
+    @band.save
+    redirect_to("/OK")
+  end
+
+  def addband
+    @already_bands = Band.all
+    bandid_list = []
+    @already_bands.each do |already_band|
+      bandid_list.push(already_band.bandid)
+    end
+    @band = Band.new(bandname: params[:bandname])
+    if bandid_list.length == 0
+      @band.bandid = 1
+    else
+      @band.bandid = bandid_list.max + 1
+    end
+
     @band.save
     redirect_to("/OK")
   end
@@ -64,7 +92,7 @@ class PostController < ApplicationController
   def params_contents
     # チェックボックスのデータを配列として許可するために、interest: [] とする
     # 修正後のコード
-    params.require(:request).permit({part: []},{lowtam: []}, {pad: []}, {key: []})
+    params.require(:request).permit({part: []},{lowtam: []}, {pad: []}, {key: []},:file)
 
   end
 end

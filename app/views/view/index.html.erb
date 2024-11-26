@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background-color: #333;
+            background-color: #000;
         }
 
         .form-container {
@@ -46,6 +46,11 @@
 
         h4 {
             text-align:center;
+        }
+
+        h5 {
+            text-align:center;
+            color:#bbb;
         }
 
         hr {
@@ -119,8 +124,7 @@
     <div class='form-container'>
         <header>
             <h1>PAシート回答</h1>
-            <h3>冬定オーデ2024</h3>
-            <h2>2/2</h2>
+            <h3>新人戦vol.2</h3>
             <hr color='#3c3c3c'>
         </header>
         <h1><%= @band.bandname %></h1>
@@ -181,6 +185,31 @@
                 <% end %>
                 <% if i == 0 %>
                     <h4>特にありません</h4>
+                <% end %>
+            </div>
+            <div class='unit'>
+                <h2>入場SE</h2>
+                <% k = 0 %>
+                <% @requests.each do |request|%>
+                    <% if request.sename != nil %>
+                        <h3><%= request.sename %></h3>
+                        <h5><%= request.seartist %></h5>
+                        <% k += 1 %>
+                    <% end %>
+                    <% if request.url != nil %>
+                        <h3><%= request.url %></h3>
+                        <% k += 1 %>
+                    <% end %>
+                    <% if request.file.attached? %>
+                        <audio controls>
+                            <source src="<%= rails_blob_path(request.file) %>" type="<%= request.file.blob.content_type %>">
+                            お使いのブラウザは音声再生をサポートしていません。
+                        </audio>
+                        <% k += 1 %>
+                    <% end %>
+                <% end %>
+                <% if k == 0 %>
+                    <h4>入場SEは使用しません</h4>
                 <% end %>
             </div>
             <div class='unit'>
@@ -277,10 +306,10 @@
                 <% end %>
             </div>
             <div class='nextband'>
-                <% if @band.id - 1 > 0 %>
+                <% if @band.bandid - 1 > 0 %>
                     <a href='<%="/view/#{@band.bandid-1}"%>' class="former" ontouchstart="">前のバンド</a>
                 <% end %>
-                <% if @band.id + 1 < 13  %>
+                <% if @band.bandid < @max  %>
                     <a href='<%="/view/#{@band.bandid+1}"%>' class="next" ontouchstart="">次のバンド</a>
                 <% end %>
             </div>

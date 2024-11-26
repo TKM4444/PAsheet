@@ -6,6 +6,14 @@ class ViewController < ApplicationController
 
   def index
     @band = Band.find_by(bandid: params[:id])
+    @all_bands = Band.all
+
+    bandid_array = []       #ここから
+    @all_bands.each do |band|
+      bandid_array.push(band.bandid)
+    end
+    @max = bandid_array.max  #ここまで、最後のバンドページの次のバンドボタンを消すための準備
+
     @beforechange = Request.where(bandid: params[:id]) #並べ替え前
     @beforechange.each do |change| #バンドメンバーに対して繰り返し
       i = 0

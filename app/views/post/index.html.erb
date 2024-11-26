@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background-color: #333;
+            background-color: #000;
         }
 
         .form-container {
@@ -83,6 +83,34 @@
             color: #f4f4f4;
         }
 
+        .innerquestion {
+            display: none; /* デフォルトは非表示 */
+            background-color: #3c3c3c;
+            padding: 0px;
+            border-radius: 5px;
+            margin-top: 15px;
+            color: #f4f4f4;
+        }
+
+        .innerquestion input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .sequestion {
+            background-color: #3c3c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #f4f4f4;
+        }
+
         .commonquestion {
             background-color: #3c3c3c;
             padding: 15px;
@@ -142,14 +170,14 @@
     <div class='form-container'>
     <header>
         <h1>PAシート</h1>
-        <h3>冬定オーデ2024</h3>
-        <h2>2/2</h2>
+        <h3>新人戦vol.2</h3>
+        <h2><%= @band.bandname%></h2>
         <hr color='#3c3c3c'>
     </header>
     <h2>自分のパートを全て<br>選択してください</h2>
 
         <!-- チェックボックス -->
-        <%= form_tag("/post/#{@band.bandid}/submit") do %>
+        <%= form_tag("/post/#{@band.bandid}/submit",method: :post,multipart: true) do %>
         <form>
             <div class='checkbox-group'>
                 <label>
@@ -159,13 +187,13 @@
                     <input type="checkbox" name="request[part][]" value=0 id="hobbyCheckbox"> Cho.
                 </label>
                 <label>
-                    <input type="checkbox" name="request[part][]" value=7 id="workCheckbox"> Gt.1(ジャズコ)
+                    <input type="checkbox" name="request[part][]" value=7 id="workCheckbox"> Gt. ジャズコ
                 </label>
                 <label>
-                    <input type="checkbox" name="request[part][]" value=6 id="educationCheckbox"> Gt.2(マーシャル)
+                    <input type="checkbox" name="request[part][]" value=6 id="educationCheckbox"> Gt. マーシャル
                 </label>
                 <label>
-                    <input type="checkbox" name="request[part][]" value=5 id="educationCheckbox"> Gt.3
+                    <input type="checkbox" name="request[part][]" value=5 id="educationCheckbox"> Gt. 持ち込みアンプ
                 </label>
                 <label>
                     <input type="checkbox" name="request[part][]" value=4 id="educationCheckbox"> Ba.
@@ -206,6 +234,38 @@
                     <input type="text" id="AnotherCheckbox" placeholder='例：DJ' name='another'>
                 </div>
 
+                <% if @i == 0%>
+                    <div id="SEQuestion" class="sequestion">
+                        <label>入場SEは使用しますか？</label><br>
+                        <input type="radio" name="SE" value="はい" id="SECheckbox"> 使用する
+                        <input type="radio" name="SE" value="いいえ" id="SECheckbox"> 使用しない
+                        <div id="SEwayQuestion" class="innerquestion">
+                            <label>入場SEの提出方法を選択してください</label><br>
+                            <input type="radio" name="SEway" value="曲名" id="SEwayCheckbox"> 曲名・アーティスト名
+                            <input type="radio" name="SEway" value="URL" id="SEwayCheckbox"> URL
+                            <input type="radio" name="SEway" value="ファイル" id="SEwayCheckbox"> ファイル添付
+                        </div>
+                        <div id="SEnameQuestion" class="innerquestion">
+                            <label>曲名とアーティスト名を正式名称で記入してください</label>
+                            <input type="text" id="AnotherCheckbox" name='sename' placeholder='曲名：'>
+                            <input type="text" id="AnotherCheckbox" name='seartist' placeholder='アーティスト名：'>
+                        </div>
+                        <div id="URLQuestion" class="innerquestion">
+                            <label>SEのURL(YouTube等)を正確に入力してください</label>
+                            <input type="text" id="AnotherCheckbox" name='url'>
+                        </div>
+                        <div id="fileQuestion" class="innerquestion">
+                            <label for="file">音声ファイルを選択</label>
+                            <input type="file" name="request[file]" id="file">
+                        </div>
+                    </div>
+                <% else %>
+                    <div class="sequestion">
+                        <h4>入場SEは既に提出済みです</h4>
+                    </div>
+                <% end %>
+
+
                 <div id="Question" class="commonquestion">
                     <label>自分のパートに関する要望を記入してください(音のバランス、リバーブなど)</label>
                     <textarea name="ownpart" cols="50" rows="10"></textarea>
@@ -234,11 +294,20 @@
             const DrCheckbox = document.getElementById("DrCheckbox");
             const KeyCheckbox = document.getElementById("KeyCheckbox");
             const AnotherCheckbox = document.getElementById("AnotherCheckbox");
+            const SECheckbox = document.querySelectorAll('input[name="SE"]');
+            const SEwayCheckbox = document.querySelectorAll('input[name="SEway"]');
+            const SEnameCheckbox = document.getElementById("SEnameCheckbox")
+            const URLCheckbox = document.getElementById("URLCheckbox")
+            const fileCheckbox = document.getElementById("fileCheckbox")
 
             const DrQuestion1 = document.getElementById("DrQuestion1");
             const DrQuestion2 = document.getElementById("DrQuestion2");
             const KeyQuestion = document.getElementById("KeyQuestion");
             const AnotherQuestion = document.getElementById("AnotherQuestion");
+            const SEwayQuestion = document.getElementById("SEwayQuestion");
+            const SEnameQuestion = document.getElementById("SEnameQuestion");
+            const URLQuestion = document.getElementById("URLQuestion");
+            const fileQuestion = document.getElementById("fileQuestion");
 
             // チェックボックスのイベントリスナーを設定
             DrCheckbox.addEventListener("change", function() {
@@ -253,6 +322,48 @@
 
             AnotherCheckbox.addEventListener("change", function() {
                 AnotherQuestion.style.display = AnotherCheckbox.checked ? "block" : "none";
+            });
+
+            SECheckbox.forEach(SE => {
+                SE.addEventListener("change", function() {
+                    if (this.value === "はい") {
+                        SEwayQuestion.style.display = "block";
+                    } else if (this.value === "いいえ") {
+                        SEwayQuestion.style.display = "none";
+                        SEnameQuestion.style.display = "none";
+                        URLQuestion.style.display = "none";
+                        fileQuestion.style.display = "none"
+                    }
+                });
+            });
+
+            SEwayCheckbox.forEach(SEway => {
+                SEway.addEventListener("change", function() {
+                    if (this.value === "曲名") {
+                        SEnameQuestion.style.display = "block";
+                        URLQuestion.style.display = "none";
+                        fileQuestion.style.display = "none"
+                    } else if (this.value === "URL") {
+                        SEnameQuestion.style.display = "none";
+                        URLQuestion.style.display = "block";
+                        fileQuestion.style.display = "none"
+                    } else if (this.value === "ファイル") {
+                        SEnameQuestion.style.display = "none";
+                        URLQuestion.style.display = "none";
+                        fileQuestion.style.display = "block"
+                    }
+                });
+            });
+            SEnameCheckbox.addEventListener("change", function() {
+                SEnameQuestion.style.display = SEnameCheckbox.checked ? "block" : "none";
+            });
+
+            URLCheckbox.addEventListener("change", function() {
+                URLQuestion.style.display = URLCheckbox.checked ? "block" : "none";
+            });
+
+            fileCheckbox.addEventListener("change", function() {
+                fileQuestion.style.display = fileCheckbox.checked ? "block" : "none";
             });
         });
     </script>
