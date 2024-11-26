@@ -13,7 +13,7 @@ gem "sprockets-rails"
 
 
 # Use the Puma web server [https://github.com/puma/puma]
- #これがないとrails s動かない！
+gem 'puma' #これがないとrails s動かない！
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"

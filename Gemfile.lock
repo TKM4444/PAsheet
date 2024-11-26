@@ -196,6 +196,8 @@ GEM
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
+    puma (6.5.0)
+      nio4r (~> 2.0)
     racc (1.8.1)
     rack (2.2.10)
     rack-protection (3.2.0)
@@ -312,6 +314,7 @@ DEPENDENCIES
   omniauth
   omniauth-google-oauth2
   pg
+  puma
   rails (~> 7.0.8, >= 7.0.8.6)
   rails_12factor
   selenium-webdriver
