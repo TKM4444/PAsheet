@@ -192,12 +192,12 @@
                 <h2>入場SE</h2>
                 <% k = 0 %>
                 <% @requests.each do |request|%>
-                    <% if request.sename != nil %>
+                    <% if request.sename != "" %>
                         <h3><%= request.sename %></h3>
                         <h4><%= request.seartist %></h4>
                         <% k += 1 %>
                     <% end %>
-                    <% if request.url != nil %>
+                    <% if request.url != "" %>
                         <h3><%= request.url %></h3>
                         <% k += 1 %>
                     <% end %>
